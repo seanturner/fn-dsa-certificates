@@ -12,8 +12,8 @@ number:
 date:
 consensus: true
 v: 3
-area: SEC
-workgroup: LAMPS WG
+area: "Security"
+workgroup: "Limited Additional Mechanisms for PKIX and SMIME"
 keyword:
   FN-DSA
   Falcon
@@ -21,12 +21,12 @@ keyword:
   X.509
   PKIX
 venue:
-  group: "Limited Additional Mechanisms for PKIX and SMIME (lamps)"
+  group: "Limited Additional Mechanisms for PKIX and SMIME"
   type: "Working Group"
   mail: "spasm@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/spasm/"
-  github: "lamps-wg/dilithium-certificates"
-  latest: "https://seanturner.github.io/fn-dsa-certificates/#go.draft-turner-lamps-fn-dsa-certificates.html"
+  github: "seanturner/fn-dsa-certificates"
+  latest: "https://seanturner.github.io/fn-dsa-certificates/draft-turner-lamps-fn-dsa-certificates.html"
 
 author:
  -
