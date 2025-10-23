@@ -2,7 +2,7 @@
 
 
 
-LAMPS WG                                                       S. Turner
+Limited Additional Mechanisms for PKIX and SMIME               S. Turner
 Internet-Draft                                                     sn3rd
 Intended status: Standards Track                         23 October 2025
 Expires: 26 April 2026
@@ -28,19 +28,19 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://seanturner.github.io/fn-dsa-certificates/#go.draft-turner-
-   lamps-fn-dsa-certificates.html.  Status information for this document
-   may be found at https://datatracker.ietf.org/doc/draft-turner-lamps-
-   fn-dsa-certificates/.
+   https://seanturner.github.io/fn-dsa-certificates/draft-turner-lamps-
+   fn-dsa-certificates.html.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-turner-lamps-fn-
+   dsa-certificates/.
 
    Discussion of this document takes place on the Limited Additional
-   Mechanisms for PKIX and SMIME (lamps) Working Group mailing list
+   Mechanisms for PKIX and SMIME Working Group mailing list
    (mailto:spasm@ietf.org), which is archived at
    https://mailarchive.ietf.org/arch/browse/spasm/.  Subscribe at
    https://www.ietf.org/mailman/listinfo/spasm/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/lamps-wg/dilithium-certificates.
+   https://github.com/seanturner/fn-dsa-certificates.
 
 Status of This Memo
 
@@ -741,11 +741,11 @@ C.2.  Example Public Keys
 
 C.3.  Example Certificates
 
-      |  The example certificates in this section have key usage bits
-      |  set to digitalSignature, keyCertSign, and cRLSign to lessen the
-      |  number of examples, i.e., brevity.  Certificate Policies (CPs)
-      |  [RFC3647] for production CAs should consider whether this
-      |  combination is appropriate.
+      |  NOTE: The example certificates in this section have key usage
+      |  bits set to digitalSignature, keyCertSign, and cRLSign to
+      |  lessen the number of examples, i.e., brevity.  Certificate
+      |  Policies (CPs) [RFC3647] for production CAs should consider
+      |  whether this combination is appropriate.
 
    The following is a self-signed certificate for the FN-DSA-512 public
    key in the previous section.  The textual encoding [RFC7468] is
