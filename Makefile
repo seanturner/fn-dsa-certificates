@@ -1,3 +1,6 @@
+DEPS_FILES := \
+	X509-FN-DSA-2026.asn \
+
 LIBDIR := lib
 include $(LIBDIR)/main.mk
 
