@@ -1,0 +1,97 @@
+X509-FN-DSA-2026
+{ iso(1) identified-organization(3) dod(6)
+  internet(1) security(5) mechanisms(5) pkix(7) id-mod(0)
+  id-mod-x509-fn-dsa-2026(TBD1) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+ PUBLIC-KEY, SIGNATURE-ALGORITHM
+   FROM AlgorithmInformation-2009  -- [RFC 5912]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-algorithmInformation-02(58) } ;
+
+--
+-- FN-DSA Identifiers
+--
+
+nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-itu-t(2)
+  country(16) us(840) organization(1) gov(101) csor(3)
+  nistAlgorithms(4) }
+
+sigAlgs OBJECT IDENTIFIER ::= { nistAlgorithms 3 }
+
+id-fn-dsa-512 OBJECT IDENTIFIER ::= { sigAlgs XX }
+
+id-fn-dsa-1024 OBJECT IDENTIFIER ::= { sigAlgs XX }
+
+--
+-- Public Key Algorithms
+--
+
+PublicKeys PUBLIC-KEY ::= {
+  -- This expands PublicKeys from [RFC 5912]
+  pk-fn-dsa-512 |
+  pk-fn-dsa-1024,
+  ...
+}
+
+--
+-- FN-DSA Public Keys
+--
+
+pk-fn-dsa-512 PUBLIC-KEY ::= {
+  IDENTIFIER id-fn-dsa-512
+  -- KEY no ASN.1 wrapping; XXXX octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { digitalSignature, nonRepudiation,
+                   keyCertSign, cRLSign }
+  -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+pk-fn-dsa-1024 PUBLIC-KEY ::= {
+  IDENTIFIER id-fn-dsa-1024
+  -- KEY no ASN.1 wrapping; XXXX octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { digitalSignature, nonRepudiation,
+                   keyCertSign, cRLSign }
+  -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+FN-DSA-PublicKey ::= OCTET STRING (SIZE (897 | 1793))
+
+FN-DSA-PrivateKey ::= OCTET STRING (SIZE (1281 | 2305))
+
+--
+-- Signature Algorithms
+--
+
+SignatureAlgorithms SIGNATURE-ALGORITHM ::= {
+  -- This expands SignatureAlgorithms from [RFC 5912]
+  sa-fn-dsa-512 |
+  sa-fn-dsa-1024,
+  ... }
+
+--
+-- ML-DSA Signature Algorithm Identifiers
+--
+
+sa-fn-dsa-512 SIGNATURE-ALGORITHM ::= {
+  IDENTIFIER id-fn-dsa-512
+  PARAMS ARE absent
+  PUBLIC-KEYS { pk-fn-dsa-512 }
+  SMIME-CAPS { IDENTIFIED BY id-fn-dsa-512 }
+  }
+
+sa-fn-dsa-1024 SIGNATURE-ALGORITHM ::= {
+  IDENTIFIER id-fn-dsa-1024
+  PARAMS ARE absent
+  PUBLIC-KEYS { pk-fn-dsa-1024 }
+  SMIME-CAPS { IDENTIFIED BY id-fn-dsa-1024 }
+  }
+
+END
