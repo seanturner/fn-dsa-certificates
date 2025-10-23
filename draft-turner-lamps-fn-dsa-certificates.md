@@ -633,7 +633,7 @@ followed by the so-called "pretty print"; the public keys are the same.
 ## Example Certificates {#example-certificates}
 
 <aside markdown="block">
-The example certificates in this section have key usage bits set to
+NOTE: The example certificates in this section have key usage bits set to
 `digitalSignature`, `keyCertSign`, and `cRLSign` to lessen the number of
 examples, i.e., brevity. Certificate Policies (CPs) {{?RFC3647}}
 for production CAs should consider whether this combination is
