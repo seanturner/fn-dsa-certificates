@@ -654,9 +654,11 @@ Appendix A.  ASN.1 Module
      -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
      }
 
-   FN-DSA-PublicKey ::= OCTET STRING (SIZE (897 | 1793))
+   FN-DSA-512-PublicKey ::= OCTET STRING (SIZE (897))
 
-   FN-DSA-PrivateKey ::= OCTET STRING (SIZE (1281 | 2305))
+   FN-DSA-1024-PublicKey ::= OCTET STRING (SIZE (1793))
+
+   FN-DSA-PrivateKey ::= OCTET STRING (SIZE (32))
 
    --
    -- Signature Algorithms
