@@ -403,7 +403,8 @@ still apply.
   NOTE: Hope the following is true!
 </aside>
 
-{{FIPS206}} specifies an FN-DSA private key as a 32-octet seed (`&xi;`).
+{{FIPS206}} specifies an FN-DSA private key as a 32-octet seed (&xi;)
+(GREEK SMALL LETTER XI, U+03BE).
 
 "Asymmetric Key Packages" {{!RFC5958}} specifies how to encode a private
 key in a structure that both identifies what algorithm the private key
