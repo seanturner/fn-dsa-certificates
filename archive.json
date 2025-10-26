@@ -1,0 +1,98 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2025-10-26T01:20:45.824254+00:00",
+  "repo": "seanturner/fn-dsa-certificates",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOQHeIPM7TiCnV",
+      "title": "Add pre-hash public key support?",
+      "url": "https://github.com/seanturner/fn-dsa-certificates/issues/2",
+      "state": "OPEN",
+      "author": "danvangeest",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I have a feeling that pre-hash support will be needed: https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/1HXzjlMUU6Y/m/N8lFdMA8AAAJ\n\nSLH-DSA needed pre-hash support for public keys in EE certificates.\n\nIn both SLH-DSA and Falcon, the signature is required before verification can begin which can cause problems with big messages in protocols where the signature comes after the message.\n\nHowever, SLH-DSA requires two passes of a message for signing while Falcon appears to support streamed signing or External-mu-like behaviour: https://falcon-sign.info/falcon.pdf\n\nSo SLH-DSA had a stronger case for pre-hash, but still since we don't know how FN-DSA public keys will be used in EE certificates, supporting pre-hash mode seems prudent.",
+      "createdAt": "2025-10-24T11:13:01Z",
+      "updatedAt": "2025-10-24T11:13:01Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOQHeIPM6vQ6NL",
+      "title": "Add Bas",
+      "url": "https://github.com/seanturner/fn-dsa-certificates/pull/1",
+      "state": "OPEN",
+      "author": "seanturner",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-23T13:14:22Z",
+      "updatedAt": "2025-10-23T13:14:22Z",
+      "baseRepository": "seanturner/fn-dsa-certificates",
+      "baseRefName": "main",
+      "baseRefOid": "8bfba5772c06a77a1f490fe06e27cfe4dcffe337",
+      "headRepository": "seanturner/fn-dsa-certificates",
+      "headRefName": "seanturner-add-bas",
+      "headRefOid": "ed78c89cd09c02c22b7eb9157681d599102df30b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
