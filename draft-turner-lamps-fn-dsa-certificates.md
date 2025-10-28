@@ -30,6 +30,12 @@ venue:
 
 author:
  -
+    ins: J. Massimo
+    name: Jake Massimo
+    organization: AWS
+    email: jakemas@amazon.com
+    country: US
+ -
     name: Sean Turner
     organization: sn3rd
     email: sean@sn3rd.com
