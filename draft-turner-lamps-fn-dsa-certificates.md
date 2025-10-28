@@ -30,6 +30,12 @@ venue:
 
 author:
  -
+    ins: P. Kampanakis
+    name: Panos Kampanakis
+    org: AWS
+    email: kpanos@amazon.com
+    country: US
+ -
     name: Sean Turner
     ins: S. Turner
     organization: sn3rd
