@@ -31,8 +31,14 @@ venue:
 author:
  -
     name: Sean Turner
+    ins: S. Turner
     organization: sn3rd
     email: sean@sn3rd.com
+ -
+    ins: B.E. Westerbaan
+    name: Bas Westerbaan
+    organization: Cloudflare
+    email: bas@cloudflare.com
 
 normative:
   FIPS206:
