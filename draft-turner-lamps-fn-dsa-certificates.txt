@@ -4,8 +4,9 @@
 
 Limited Additional Mechanisms for PKIX and SMIME               S. Turner
 Internet-Draft                                                     sn3rd
-Intended status: Standards Track                         23 October 2025
-Expires: 26 April 2026
+Intended status: Standards Track                        B. E. Westerbaan
+Expires: 1 May 2026                                           Cloudflare
+                                                         28 October 2025
 
 
  Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for
@@ -57,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2026.
+   This Internet-Draft will expire on 1 May 2026.
 
 Copyright Notice
 
@@ -98,7 +99,7 @@ Table of Contents
      C.2.  Example Public Keys
      C.3.  Example Certificates
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -768,8 +769,13 @@ Acknowledgments
 
       |  TODO
 
-Author's Address
+Authors' Addresses
 
    Sean Turner
    sn3rd
    Email: sean@sn3rd.com
+
+
+   Bas Westerbaan
+   Cloudflare
+   Email: bas@cloudflare.com
