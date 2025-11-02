@@ -2,11 +2,13 @@
 
 
 
-Limited Additional Mechanisms for PKIX and SMIME               S. Turner
-Internet-Draft                                                     sn3rd
-Intended status: Standards Track                        B. E. Westerbaan
-Expires: 1 May 2026                                           Cloudflare
-                                                         28 October 2025
+Limited Additional Mechanisms for PKIX and SMIME              J. Massimo
+Internet-Draft                                                       AWS
+Intended status: Standards Track                               S. Turner
+Expires: 6 May 2026                                                sn3rd
+                                                        B. E. Westerbaan
+                                                              Cloudflare
+                                                         2 November 2025
 
 
  Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for
@@ -58,7 +60,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 May 2026.
+   This Internet-Draft will expire on 6 May 2026.
 
 Copyright Notice
 
@@ -770,6 +772,12 @@ Acknowledgments
       |  TODO
 
 Authors' Addresses
+
+   Jake Massimo
+   AWS
+   United States of America
+   Email: jakemas@amazon.com
+
 
    Sean Turner
    sn3rd
