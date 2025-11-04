@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Greek,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for the Fast-Fourier Transform over NTRU-Lattice-Based Digital Signature Algorithm (FN-DSA)</title>
+<meta content="Jake Massimo" name="author">
+<meta content="Panos Kampanakis" name="author">
+<meta content="Sean Turner" name="author">
+<meta content="Bas Westerbaan" name="author">
+<meta content="
+       Digital signatures are used within X.509 certificates and Certificate
+Revocation Lists (CRLs), and to sign messages. This document specifies
+the conventions for using, the forthcoming, FIPS 206, the Fast-Fourier
+Transform over NTRU-Lattice-Based Digital Signature Algorithm (FN-DSA),
+in Internet X.509 certificates and CRLs.  The conventions for the
+associated signatures, subject public keys, and private key are also
+described. 
+    " name="description">
+<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="FN-DSA Falcon Certificate X.509 PKIX" name="keyword">
+<meta content="draft-turner-lamps-fn-dsa-certificates-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.31.0
+    Python 3.12.12
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.5.0
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.5
+    wcwidth 0.2.14
+-->
+<link href="draft-turner-lamps-fn-dsa-certificates.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">FN-DSA in Certificates</td>
+<td class="right">November 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Massimo, et al.</td>
+<td class="center">Expires 8 May 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Limited Additional Mechanisms for PKIX and SMIME</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-turner-lamps-fn-dsa-certificates-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-11-04" class="published">4 November 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-05-08">8 May 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">J. Massimo</div>
+<div class="org">AWS</div>
+</div>
+<div class="author">
+      <div class="author-name">P. Kampanakis</div>
+<div class="org">AWS</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Turner</div>
+<div class="org">sn3rd</div>
+</div>
+<div class="author">
+      <div class="author-name">B. E. Westerbaan</div>
+<div class="org">Cloudflare</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Internet X.509 Public Key Infrastructure -- Algorithm Identifiers for the Fast-Fourier Transform over NTRU-Lattice-Based Digital Signature Algorithm (FN-DSA)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">Digital signatures are used within X.509 certificates and Certificate
+Revocation Lists (CRLs), and to sign messages. This document specifies
+the conventions for using, the forthcoming, FIPS 206, the Fast-Fourier
+Transform over NTRU-Lattice-Based Digital Signature Algorithm (FN-DSA),
+in Internet X.509 certificates and CRLs.  The conventions for the
+associated signatures, subject public keys, and private key are also
+described.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://seanturner.github.io/fn-dsa-certificates/draft-turner-lamps-fn-dsa-certificates.html">https://seanturner.github.io/fn-dsa-certificates/draft-turner-lamps-fn-dsa-certificates.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-turner-lamps-fn-dsa-certificates/">https://datatracker.ietf.org/doc/draft-turner-lamps-fn-dsa-certificates/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        Limited Additional Mechanisms for PKIX and SMIME Working Group mailing list (<span><a href="mailto:spasm@ietf.org">mailto:spasm@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/spasm/">https://mailarchive.ietf.org/arch/browse/spasm/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/spasm/">https://www.ietf.org/mailman/listinfo/spasm/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/seanturner/fn-dsa-certificates">https://github.com/seanturner/fn-dsa-certificates</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 8 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-requirements-language" class="internal xref">Requirements Language</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-identifiers" class="internal xref">Identifiers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-fn-dsa-signatures-in-pkix" class="internal xref">FN-DSA Signatures in PKIX</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-fn-dsa-public-keys-in-pkix" class="internal xref">FN-DSA Public Keys in PKIX</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-key-usage-bits" class="internal xref">Key Usage Bits</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-private-key-format" class="internal xref">Private Key Format</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-rationale-for-disallowing-h" class="internal xref">Rationale for Disallowing HashFN-DSA</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-security-strengths" class="internal xref">Security Strengths</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
+                <p id="section-toc.1-1.13.2.1.1"><a href="#appendix-C.1" class="auto internal xref">C.1</a>.  <a href="#name-example-private-keys" class="internal xref">Example Private Keys</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1.2.1">
+                    <p id="section-toc.1-1.13.2.1.2.1.1"><a href="#appendix-C.1.1" class="auto internal xref">C.1.1</a>.  <a href="#name-fn-dsa-512-private-key-exam" class="internal xref">FN-DSA-512 Private Key Examples</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1.2.2">
+                    <p id="section-toc.1-1.13.2.1.2.2.1"><a href="#appendix-C.1.2" class="auto internal xref">C.1.2</a>.  <a href="#name-fn-dsa-1024-private-key-exa" class="internal xref">FN-DSA-1024 Private Key Examples</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#appendix-C.2" class="auto internal xref">C.2</a>.  <a href="#name-example-public-keys" class="internal xref">Example Public Keys</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
+                <p id="section-toc.1-1.13.2.3.1"><a href="#appendix-C.3" class="auto internal xref">C.3</a>.  <a href="#name-example-certificates" class="internal xref">Example Certificates</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">The Fast-Fourier Transform over NTRU-Lattice-Based Digital Signature
+Algorithm (FN-DSA) is a quantum-resistant digital signature scheme
+standardized by the US National Institute of Standards and Technology (NIST)
+PQC project <span>[<a href="#NIST-PQC" class="cite xref">NIST-PQC</a>]</span> in, the forthcoming, <span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span>. This document
+specifies the use of the FN-DSA in Public Key Infrastructure X.509 (PKIX)
+certificates and Certificate Revocation Lists (CRLs) at two security
+levels: FN-DSA-512 and FN-DSA-1024.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Prior to standardization, FN-DSA was known as Falcon.  FN-DSA and
+Falcon are not compatible.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3"><span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> defines two variants of FL-DSA: pure and pre-hash. Only
+the former is specified in this document. See <a href="#opcons" class="auto internal xref">Section 8</a> for the
+rationale. The pure variant of FN-DSA supports the typical pre-hash
+flow.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<div id="requirements-language">
+<section id="section-1.1">
+        <h3 id="name-requirements-language">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
+        </h3>
+<p id="section-1.1-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="oids">
+<section id="section-2">
+      <h2 id="name-identifiers">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-identifiers" class="section-name selfRef">Identifiers</a>
+      </h2>
+<p id="section-2-1">The <code>AlgorithmIdentifier</code> type is defined in <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> as follows:<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2-2">
+<pre>
+    AlgorithmIdentifier{ALGORITHM-TYPE, ALGORITHM-TYPE:AlgorithmSet} ::=
+      SEQUENCE {
+        algorithm   ALGORITHM-TYPE.&amp;id({AlgorithmSet}),
+        parameters  ALGORITHM-TYPE.
+                      &amp;Params({AlgorithmSet}{@algorithm}) OPTIONAL
+     }
+</pre><a href="#section-2-2" class="pilcrow">¶</a>
+</div>
+<aside id="section-2-3">
+        <p id="section-2-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and is compatible with
+the 2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1
+syntax.<a href="#section-2-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-2-4">The fields in AlgorithmIdentifier have the following meanings:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-5.1">
+          <p id="section-2-5.1.1"><code>algorithm</code> identifies the cryptographic algorithm with an object
+identifier (OID).<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-5.2">
+          <p id="section-2-5.2.1"><code>parameters</code>, which are optional, are the associated parameters for the
+algorithm identifier in the algorithm field.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-6">The NIST-registered OIDs <span>[<a href="#CSOR" class="cite xref">CSOR</a>]</span> are:<a href="#section-2-6" class="pilcrow">¶</a></p>
+<aside id="section-2-7">
+        <p id="section-2-7.1">NOTE: The OIDS, once registered by NIST, will be included below.<a href="#section-2-7.1" class="pilcrow">¶</a></p>
+</aside>
+<div class="alignLeft art-text artwork" id="section-2-8">
+<pre>
+id-fn-dsa-512 OBJECT IDENTIFIER ::= { joint-iso-itu-t(2)
+            country(16) us(840) organization(1) gov(101) csor(3)
+            nistAlgorithm(4) sigAlgs(3) id-fn-dsa-512(TBD) }
+
+id-fn-dsa-1024 OBJECT IDENTIFIER ::= { joint-iso-itu-t(2)
+            country(16) us(840) organization(1) gov(101) csor(3)
+            nistAlgorithm(4) sigAlgs(3) id-fn-dsa-1024(TBD) }
+</pre><a href="#section-2-8" class="pilcrow">¶</a>
+</div>
+<p id="section-2-9">The contents of the <code>parameters</code> component for each <code>algorithm</code> <span class="bcp14">MUST</span> be
+absent.<a href="#section-2-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="fn-dsa-signatures-in-pkix">
+<section id="section-3">
+      <h2 id="name-fn-dsa-signatures-in-pkix">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-fn-dsa-signatures-in-pkix" class="section-name selfRef">FN-DSA Signatures in PKIX</a>
+      </h2>
+<p id="section-3-1">FN-DSA is a lattice-based digital signature scheme based on the GPV
+hash-and-sign framework <span>[<a href="#GPV08" class="cite xref">GPV08</a>]</span>, instantiated over NTRU (N-th Degree
+Truncated Polynomial Ring Unit) lattices with Fast Fourier sampling
+techniques <span>[<a href="#DP16" class="cite xref">DP16</a>]</span>.  The security is based upon the hardness of the
+underlying FN-DSA is the SIS (Short Integer Solution) problem over
+NTRU lattices.  FN-DSA provides two parameter sets for the NIST PQC
+security categories 512 and 1024.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Signatures are used in a number of different ASN.1 structures. As shown
+in the ASN.1 equivalent to that in <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> below, in an X.509
+certificate, a signature is encoded with an algorithm identifier in the
+<code>signatureAlgorithm</code> attribute and a <code>signatureValue</code> attribute that
+contains the actual signature.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-3">
+<pre>
+  Certificate  ::=  SIGNED{ TBSCertificate }
+
+  SIGNED{ToBeSigned} ::= SEQUENCE {
+     toBeSigned           ToBeSigned,
+     algorithmIdentifier  SEQUENCE {
+         algorithm        SIGNATURE-ALGORITHM.
+                            &amp;id({SignatureAlgorithms}),
+         parameters       SIGNATURE-ALGORITHM.
+                            &amp;Params({SignatureAlgorithms}
+                              {@algorithmIdentifier.algorithm})
+                                OPTIONAL
+     },
+     signature BIT STRING (CONTAINING SIGNATURE-ALGORITHM.&amp;Value(
+                              {SignatureAlgorithms}
+                              {@algorithmIdentifier.algorithm}))
+  }
+</pre><a href="#section-3-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3-4">Signatures are also used in the CRL list ASN.1, the representation
+below is equivalent to that in <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. In an X.509 CRL, a
+signature is encoded with an algorithm identifier in the
+<code>signatureAlgorithm</code> attribute and a <code>signatureValue</code> attribute
+that contains the actual signature.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-5">
+<pre>
+   CertificateList  ::=  SIGNED{ TBSCertList }
+</pre><a href="#section-3-5" class="pilcrow">¶</a>
+</div>
+<p id="section-3-6">The following <code>SIGNATURE-ALGORITHM</code> ASN.1 classes are for FN-DSA-512
+and FN-DSA-1024:<a href="#section-3-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-7">
+<pre>
+  sa-fn-dsa-512 SIGNATURE-ALGORITHM ::= {
+    IDENTIFIER id-fn-dsa-512
+    PARAMS ARE absent
+    PUBLIC-KEYS { pk-fn-dsa-512 }
+    SMIME-CAPS { IDENTIFIED BY id-fn-dsa-512 }
+    }
+
+  sa-fn-dsa-1024 SIGNATURE-ALGORITHM ::= {
+    IDENTIFIER id-fn-dsa-1024
+    PARAMS ARE absent
+    PUBLIC-KEYS { pk-fn-dsa-1024 }
+    SMIME-CAPS { IDENTIFIED BY id-fn-dsa-1024 }
+    }
+</pre><a href="#section-3-7" class="pilcrow">¶</a>
+</div>
+<aside id="section-3-8">
+        <p id="section-3-8.1">NOTE: The above syntax is from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>.<a href="#section-3-8.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-3-9">The identifiers defined in <a href="#oids" class="auto internal xref">Section 2</a> can be used as the
+<code>AlgorithmIdentifier</code> in the <code>signatureAlgorithm</code> field in the sequence
+<code>Certificate</code>/<code>CertificateList</code> and the <code>signature</code> field in the sequence
+<code>TBSCertificate</code>/<code>TBSCertList</code> in certificates and CRLs, respectively,
+<span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. The <code>parameters</code> of these signature algorithms <span class="bcp14">MUST</span> be
+absent, as explained in <a href="#oids" class="auto internal xref">Section 2</a>. That is, the <code>AlgorithmIdentifier</code>
+        <span class="bcp14">SHALL</span> be a <code>SEQUENCE</code> of one component, the OID id-fn-dsa-*, where *
+is 512 or 1024 -- see <a href="#oids" class="auto internal xref">Section 2</a>.<a href="#section-3-9" class="pilcrow">¶</a></p>
+<aside id="section-3-10">
+        <p id="section-3-10.1">TODO: Insert reference for context string (assuming there is one).<a href="#section-3-10.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-3-11">The <code>signatureValue</code> field contains the corresponding FN-DSA signature
+computed upon the ASN.1 DER-encoded <code>TBSCertificate</code>/<code>TBSCertList</code>
+        <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.  The optional context string (ctx) parameter
+as defined in Section X of <span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> is left to its default value:
+the empty string.<a href="#section-3-11" class="pilcrow">¶</a></p>
+<p id="section-3-12">Conforming Certification Authority (CA) implementations <span class="bcp14">MUST</span> specify
+the algorithms explicitly by using the OIDs specified in <a href="#oids" class="auto internal xref">Section 2</a> when
+encoding FN-DSA signatures in certificates and CRLs. Conforming client
+implementations that process certificates and CRLs using FN-DSA <span class="bcp14">MUST</span>
+recognize the corresponding OIDs. Encoding rules for FN-DSA signature
+values are specified in <a href="#oids" class="auto internal xref">Section 2</a>.<a href="#section-3-12" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="FN-DSA-PublicKey">
+<section id="section-4">
+      <h2 id="name-fn-dsa-public-keys-in-pkix">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-fn-dsa-public-keys-in-pkix" class="section-name selfRef">FN-DSA Public Keys in PKIX</a>
+      </h2>
+<p id="section-4-1">In the X.509 certificate, the <code>subjectPublicKeyInfo</code> field has the
+<code>SubjectPublicKeyInfo</code> type, which has the following ASN.1 syntax:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-2">
+<pre>
+  SubjectPublicKeyInfo {PUBLIC-KEY: IOSet} ::= SEQUENCE {
+      algorithm        AlgorithmIdentifier {PUBLIC-KEY, {IOSet}},
+      subjectPublicKey BIT STRING
+  }
+</pre><a href="#section-4-2" class="pilcrow">¶</a>
+</div>
+<aside id="section-4-3">
+        <p id="section-4-3.1">NOTE: The above syntax is from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>. See <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> for the 1988 ASN.1 syntax.<a href="#section-4-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-4-4">The fields in <code>SubjectPublicKeyInfo</code> have the following meaning:<a href="#section-4-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-5.1">
+          <p id="section-4-5.1.1"><code>algorithm</code> is the algorithm identifier and parameters for the
+public key (see above).<a href="#section-4-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-5.2">
+          <p id="section-4-5.2.1"><code>subjectPublicKey</code> contains the public key.<a href="#section-4-5.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<aside id="section-4-6">
+        <p id="section-4-6.1">TODO: Include reference to FIPS's section.<a href="#section-4-6.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-4-7">Section XX of <span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> defines the raw byte string
+encoding of an FN-DSA public key. When used in a <code>SubjectPublicKeyInfo</code>
+type, the <code>subjectPublicKey BIT STRING</code> contains this raw byte string
+encoding of the public key. When an FN-DSA public key appears outside
+of a <code>SubjectPublicKeyInfo</code> type in an environment that uses ASN.1
+encoding, it could be encoded as an <code>OCTET STRING</code> by using the
+<code>FN-DSA-512-PublicKey</code> and <code>FN-DSA-1024-PublicKey</code> types corresponding
+to the correct key size defined below.<a href="#section-4-7" class="pilcrow">¶</a></p>
+<p id="section-4-8">The <code>PUBLIC-KEY</code> ASN.1 types for FN-DSA are defined here:<a href="#section-4-8" class="pilcrow">¶</a></p>
+<aside id="section-4-9">
+        <p id="section-4-9.1">TODO: Include key sizes below.<a href="#section-4-9.1" class="pilcrow">¶</a></p>
+</aside>
+<div class="alignLeft art-text artwork" id="section-4-10">
+<pre>
+  pk-fn-dsa-512 PUBLIC-KEY ::= {
+    IDENTIFIER id-fn-dsa-512
+    -- KEY no ASN.1 wrapping --
+    CERT-KEY-USAGE
+      { digitalSignature, nonRepudiation, keyCertSign, cRLSign }
+    -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+  pk-fn-dsa-87 PUBLIC-KEY ::= {
+    IDENTIFIER id-fn-dsa-1024
+    -- KEY no ASN.1 wrapping --
+    CERT-KEY-USAGE
+      { digitalSignature, nonRepudiation, keyCertSign, cRLSign }
+    -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+  FN-DSA-512-PublicKey ::= OCTET STRING (SIZE (897))
+
+  FN-DSA-1024-PublicKey ::= OCTET STRING (SIZE (1793))
+
+  FN-DSA-PrivateKey ::= OCTET STRING (SIZE (32))
+</pre><a href="#section-4-10" class="pilcrow">¶</a>
+</div>
+<aside id="section-4-11">
+        <p id="section-4-11.1">NOTE: The above syntax is from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>.<a href="#section-4-11.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-4-12"><span>[<a href="#RFC5958" class="cite xref">RFC5958</a>]</span> specifies the Asymmetric Key Package's <code>OneAsymmetricKey</code>
+type for encoding asymmetric keypairs. When an FN-DSA private key or
+keypair is encoded as a <code>OneAsymmetricKey</code>, it follows the description
+in <a href="#priv-key" class="auto internal xref">Section 6</a>.<a href="#section-4-12" class="pilcrow">¶</a></p>
+<p id="section-4-13">When the FN-DSA private key appears outside of an Asymmetric Key Package
+in an environment that uses ASN.1 encoding, it can be encoded using
+<code>FN-DSA-PrivateKey</code>.<a href="#section-4-13" class="pilcrow">¶</a></p>
+<p id="section-4-14"><a href="#examples" class="auto internal xref">Appendix C</a> contains example FN-DSA public keys encoded using the
+textual encoding defined in <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span>.<a href="#section-4-14" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="key-usage-bits">
+<section id="section-5">
+      <h2 id="name-key-usage-bits">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-key-usage-bits" class="section-name selfRef">Key Usage Bits</a>
+      </h2>
+<p id="section-5-1">The intended application for the key is indicated in the <code>keyUsage</code>
+certificate extension; see <span><a href="https://rfc-editor.org/rfc/rfc5280#section-4.2.1.3" class="relref">Section 4.2.1.3</a> of [<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>. If the
+<code>keyUsage</code> extension is present in a certificate that includes <code>id-fn-dsa-*</code>
+(where * is 512 or 1024 -- see <a href="#oids" class="auto internal xref">Section 2</a>) in the <code>SubjectPublicKeyInfo</code>,
+then the subject public key can only be used for verifying digital
+signatures on certificates or CRLs, or those used in an entity authentication
+service, a data origin authentication service, an integrity service, and/or
+a non-repudiation service that protects against the signing entity falsely
+denying some action. This means that the <code>keyUsage</code> extension <span class="bcp14">MUST</span> have at
+least one of the following bits set:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1"><code>digitalSignature</code><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1"><code>nonRepudiation</code><a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1"><code>keyCertSign</code><a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.4">
+          <p id="section-5-2.4.1"><code>cRLSign</code><a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-3">FN-DSA subject public keys cannot be used to establish keys or encrypt data, so the
+<code>keyUsage</code> extension <span class="bcp14">MUST NOT</span> have any of following bits set:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-4.1">
+          <p id="section-5-4.1.1"><code>keyEncipherment</code><a href="#section-5-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.2">
+          <p id="section-5-4.2.1"><code>dataEncipherment</code><a href="#section-5-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.3">
+          <p id="section-5-4.3.1"><code>keyAgreement</code><a href="#section-5-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.4">
+          <p id="section-5-4.4.1"><code>encipherOnly</code><a href="#section-5-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-4.5">
+          <p id="section-5-4.5.1"><code>decipherOnly</code><a href="#section-5-4.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-5-5">Requirements about the <code>keyUsage</code> extension bits defined in <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>
+still apply.<a href="#section-5-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="priv-key">
+<section id="section-6">
+      <h2 id="name-private-key-format">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-private-key-format" class="section-name selfRef">Private Key Format</a>
+      </h2>
+<aside id="section-6-1">
+        <p id="section-6-1.1">NOTE: Hope the following is true!<a href="#section-6-1.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-6-2"><span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> specifies an FN-DSA private key as a 32-octet seed (ξ)
+(GREEK SMALL LETTER XI, U+03BE).<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">"Asymmetric Key Packages" <span>[<a href="#RFC5958" class="cite xref">RFC5958</a>]</span> specifies how to encode a private
+key in a structure that both identifies what algorithm the private key
+is for and allows for the public key and additional attributes about the
+key to be included as well. For illustration, the ASN.1 structure
+<code>OneAsymmetricKey</code> is replicated below.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6-4">
+<pre>
+  OneAsymmetricKey ::= SEQUENCE {
+    version                  Version,
+    privateKeyAlgorithm      SEQUENCE {
+    algorithm                PUBLIC-KEY.&amp;id({PublicKeySet}),
+    parameters               PUBLIC-KEY.&amp;Params({PublicKeySet}
+                               {@privateKeyAlgorithm.algorithm})
+                                  OPTIONAL}
+    privateKey               OCTET STRING (CONTAINING
+                               PUBLIC-KEY.&amp;PrivateKey({PublicKeySet}
+                                 {@privateKeyAlgorithm.algorithm})),
+    attributes           [0] Attributes OPTIONAL,
+    ...,
+    [[2: publicKey       [1] BIT STRING (CONTAINING
+                               PUBLIC-KEY.&amp;Params({PublicKeySet}
+                                 {@privateKeyAlgorithm.algorithm})
+                                 OPTIONAL ]],
+    ...
+  }
+</pre><a href="#section-6-4" class="pilcrow">¶</a>
+</div>
+<aside id="section-6-5">
+        <p id="section-6-5.1">NOTE: The above syntax is from <span>[<a href="#RFC5958" class="cite xref">RFC5958</a>]</span> and is compatible with the
+  2021 ASN.1 syntax <span>[<a href="#X680" class="cite xref">X680</a>]</span>.<a href="#section-6-5.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-6-6">For FN-DSA private keys, the <code>privateKey</code> field in <code>OneAsymmetricKey</code>
+contains raw octet string encoding of the 32-octet seed.<a href="#section-6-6" class="pilcrow">¶</a></p>
+<p id="section-6-7"><a href="#examples" class="auto internal xref">Appendix C</a> contains example FN-DSA private keys encoded using the
+textual encoding defined in <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span>.<a href="#section-6-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">For the ASN.1 module in <a href="#asn1" class="auto internal xref">Appendix A</a>, IANA [is requested/has assigned]
+the following object identifier (OID) in the "SMI Security for PKIX
+Module Identifier" registry (1.3.6.1.5.5.7.0):<a href="#section-7-1" class="pilcrow">¶</a></p>
+<span id="name-object-identifier-assignmen"></span><div id="iana-reg">
+<table class="center" id="table-1">
+        <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-object-identifier-assignmen" class="selfRef">Object Identifier Assignments</a>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Decimal</th>
+            <th class="text-left" rowspan="1" colspan="1">Description</th>
+            <th class="text-left" rowspan="1" colspan="1">Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">id-mod-x509-fn-dsa-2026</td>
+            <td class="text-left" rowspan="1" colspan="1">This RFC</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+</section>
+</div>
+<div id="opcons">
+<section id="section-8">
+      <h2 id="name-operational-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
+      </h2>
+<div id="sec-disallow-hash">
+<section id="section-8.1">
+        <h3 id="name-rationale-for-disallowing-h">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-rationale-for-disallowing-h" class="section-name selfRef">Rationale for Disallowing HashFN-DSA</a>
+        </h3>
+<aside id="section-8.1-1">
+          <p id="section-8.1-1.1">TODO: Get section reference for HashFN-DSA.<a href="#section-8.1-1.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-8.1-2">The HashFN-DSA mode defined in Section X.X of <span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> <span class="bcp14">MUST NOT</span> be
+used; in other words, public keys identified by
+<code>id-hash-fn-dsa-512-with-sha512</code> and <code>id-hash-fn-dsa-1024-with-sha512</code>
+          <span class="bcp14">MUST NOT</span> be in X.509 certificates used for
+CRLs, OCSP, certificate issuance, and related PKIX protocols. This
+restriction is primarily to increase interoperability.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
+<p id="section-8.1-3">FN-DSA and HashFN-DSA are incompatible algorithms that require
+different <code>Verify()</code> routines. This introduces the complexity of
+informing the verifier whether to use <code>FN-DSA.Verify()</code> or
+<code>HashFN-DSA.Verify()</code>. Additionally, since
+the same OIDs are used to identify the FN-DSA
+public keys and FN-DSA signature algorithms, an implementation would
+need to commit a given public key to be either of type <code>FN-DSA</code> or
+<code>HashFN-DSA</code> at the time of certificate creation. This is anticipated
+to cause operational issues in contexts where the operator does not
+know whether the key will need to produce pure or pre-hashed signatures
+at key-generation time.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-9">
+      <h2 id="name-security-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<aside id="section-9-1">
+        <p id="section-9-1.1">TODO: Most copied from RFC 9881. Dropped the bit about Gaussian sampling.
+  Also, FN-DSA is only going to support randomized sigs, I figured we
+  could use the text about why they didn't pick deterministic to
+  introduce floating-point issues.<a href="#section-9-1.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9-2">The Security Considerations section of <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> applies to this
+specification as well.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<aside id="section-9-3">
+        <p id="section-9-3.1">TODO: Verify EUF-CMA. Get #s for chosen messages<a href="#section-9-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9-4">The FN-DSA signature scheme is unforgeable under chosen message
+attacks (EUF-CMA). For the purpose of estimating security strength, it has
+been assumed that the attacker has access to signatures for no more
+than 2^{XX} chosen messages.<a href="#section-9-4" class="pilcrow">¶</a></p>
+<aside id="section-9-5">
+        <p id="section-9-5.1">TODO: Get section reference.<a href="#section-9-5.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9-6">FN-DSA depends on high quality random numbers that are suitable for
+use in cryptography.  The use of inadequate pseudo-random number
+generators (PRNGs) to generate such values can significantly undermine
+various security properties. For instance, using an inadequate PRNG
+for key generation, might allow an attacker to efficiently recover
+the private key by trying a small set of possibilities, rather than
+brute force search the whole keyspace.  The generation of random
+numbers of a sufficient level of quality for use in cryptography
+is difficult; see Section X.X.X of <span>[<a href="#FIPS206" class="cite xref">FIPS206</a>]</span> for some additional
+information.<a href="#section-9-6" class="pilcrow">¶</a></p>
+<p id="section-9-7">In the design of FN-DSA, care has been taken to make side-channel
+resilience easier to achieve. Implementations must still take great care
+not to leak information via various side channels. While deliberate
+design decisions such as these can help to deliver a greater ease
+of secure implementation - particularly against side-channel
+attacks - it does not necessarily provide resistance to more
+powerful attacks such as differential power analysis. Some amount
+of side-channel leakage has been demonstrated in parts of the
+signing algorithm (specifically the bit-unpacking function), from
+which a demonstration of key recovery has been made over a large
+sample of signatures. Masking countermeasures exist for
+FN-DSA, but come with a performance overhead.<a href="#section-9-7" class="pilcrow">¶</a></p>
+<aside id="section-9-8">
+        <p id="section-9-8.1">TODO: Expand the following to also talk about floating point
+  implementation challenges.<a href="#section-9-8.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9-9">FN-DSA only offers randomized signing. Deterministic signing could
+be dangerous as mistakes in floating-point implementation could cause
+different signatures for same hash.<a href="#section-9-9" class="pilcrow">¶</a></p>
+<aside id="section-9-10">
+        <p id="section-9-10.1">TODO: Get reference.<a href="#section-9-10.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="section-9-11">A security property also associated with digital
+signatures is non-repudiation. Non-repudiation refers to the
+assurance that the owner of a signature key pair that was
+capable of generating an existing signature corresponding to
+certain data cannot convincingly deny having signed the data,
+unless its private key was compromised.
+The digital signature scheme FN-DSA possess three security
+properties beyond unforgeability, that are associated with
+non-repudiation. These are exclusive ownership, message-bound
+signatures, and non-resignability. These properties are based
+tightly on the assumed collision resistance of the hash
+function used (in this case SHAKE-256). A full discussion
+of these properties in FN-DSA can be found at XXXX.<a href="#section-9-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-10">
+      <h2 id="name-references">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-10.1">
+        <h3 id="name-normative-references">
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="CSOR">[CSOR]</dt>
+        <dd>
+<span class="refAuthor">NIST</span>, <span class="refTitle">"Computer Security Objects Register"</span>, <time datetime="2024-08-20" class="refDate">20 August 2024</time>, <span>&lt;<a href="https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration">https://csrc.nist.gov/projects/computer-security-objects-register/algorithm-registration</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="FIPS206">[FIPS206]</dt>
+        <dd>
+<span class="refTitle">"Fast Fourier Transform over NTRU-Lattice-Based Digital Signature Algorithm"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards">https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+        <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5912">[RFC5912]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for the Public Key Infrastructure Using X.509 (PKIX)"</span>, <span class="seriesInfo">RFC 5912</span>, <span class="seriesInfo">DOI 10.17487/RFC5912</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5912">https://www.rfc-editor.org/rfc/rfc5912</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5958">[RFC5958]</dt>
+        <dd>
+<span class="refAuthor">Turner, S.</span>, <span class="refTitle">"Asymmetric Key Packages"</span>, <span class="seriesInfo">RFC 5958</span>, <span class="seriesInfo">DOI 10.17487/RFC5958</span>, <time datetime="2010-08" class="refDate">August 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5958">https://www.rfc-editor.org/rfc/rfc5958</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information Technology -- Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X690">[X690]</dt>
+      <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information Technology -- ASN.1: ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ITU-T Recommendation X.690</span>, <span class="seriesInfo">ISO/IEC 8825-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.690">https://www.itu.int/rec/T-REC-X.690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-10.2">
+        <h3 id="name-informative-references">
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="DP16">[DP16]</dt>
+        <dd>
+<span class="refAuthor">Ducas, L.</span> and <span class="refAuthor">T. Prest</span>, <span class="refTitle">"Fast Fourier Orthogonalization"</span>, <span class="seriesInfo">Proceedings of the 2016 ACM International Symposium on Symbolic and Algebraic Computation (ISSAC '16), pp. 191–198 </span>, <time datetime="2016" class="refDate">2016</time>, <span>&lt;<a href="https://doi.org/10.1145/2930889.2930923">https://doi.org/10.1145/2930889.2930923</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GPV08">[GPV08]</dt>
+        <dd>
+<span class="refAuthor">Gentry, C.</span>, <span class="refAuthor">Peikert, C.</span>, and <span class="refAuthor">V. Vaikuntanathan</span>, <span class="refTitle">"Trapdoors for Hard Lattices and New Cryptographic Constructions"</span>, <span class="seriesInfo">Proceedings of the 40th Annual ACM Symposium on Theory of Computing (STOC '08), pp. 197–206 </span>, <time datetime="2008" class="refDate">2008</time>, <span>&lt;<a href="https://doi.org/10.1145/1374376.1374407">https://doi.org/10.1145/1374376.1374407</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NIST-PQC">[NIST-PQC]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Post-Quantum Cryptography Project"</span>, <time datetime="2016-12-20" class="refDate">20 December 2016</time>, <span>&lt;<a href="https://csrc.nist.gov/Projects/post-quantum-cryptography">https://csrc.nist.gov/Projects/post-quantum-cryptography</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3647">[RFC3647]</dt>
+        <dd>
+<span class="refAuthor">Chokhani, S.</span>, <span class="refAuthor">Ford, W.</span>, <span class="refAuthor">Sabett, R.</span>, <span class="refAuthor">Merrill, C.</span>, and <span class="refAuthor">S. Wu</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate Policy and Certification Practices Framework"</span>, <span class="seriesInfo">RFC 3647</span>, <span class="seriesInfo">DOI 10.17487/RFC3647</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3647">https://www.rfc-editor.org/rfc/rfc3647</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7468">[RFC7468]</dt>
+      <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">S. Leonard</span>, <span class="refTitle">"Textual Encodings of PKIX, PKCS, and CMS Structures"</span>, <span class="seriesInfo">RFC 7468</span>, <span class="seriesInfo">DOI 10.17487/RFC7468</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7468">https://www.rfc-editor.org/rfc/rfc7468</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="asn1">
+<section id="appendix-A">
+      <h2 id="name-asn1-module">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+      </h2>
+<p id="appendix-A-1">This appendix includes the ASN.1 module <span>[<a href="#X680" class="cite xref">X680</a>]</span> for the FN-DSA.  Note that
+as per <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, certificates use the Distinguished Encoding Rules; see
+<span>[<a href="#X690" class="cite xref">X690</a>]</span>. This module imports objects from <span>[<a href="#RFC5912" class="cite xref">RFC5912</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div class="breakable sourcecode" id="appendix-A-2">
+<pre>&lt;CODE BEGINS&gt;
+X509-FN-DSA-2026
+{ iso(1) identified-organization(3) dod(6)
+  internet(1) security(5) mechanisms(5) pkix(7) id-mod(0)
+  id-mod-x509-fn-dsa-2026(TBD1) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+ PUBLIC-KEY, SIGNATURE-ALGORITHM
+   FROM AlgorithmInformation-2009  -- [RFC 5912]
+     { iso(1) identified-organization(3) dod(6) internet(1)
+       security(5) mechanisms(5) pkix(7) id-mod(0)
+       id-mod-algorithmInformation-02(58) } ;
+
+--
+-- FN-DSA Identifiers
+--
+
+nistAlgorithms OBJECT IDENTIFIER ::= { joint-iso-itu-t(2)
+  country(16) us(840) organization(1) gov(101) csor(3)
+  nistAlgorithms(4) }
+
+sigAlgs OBJECT IDENTIFIER ::= { nistAlgorithms 3 }
+
+id-fn-dsa-512 OBJECT IDENTIFIER ::= { sigAlgs XX }
+
+id-fn-dsa-1024 OBJECT IDENTIFIER ::= { sigAlgs XX }
+
+--
+-- Public Key Algorithms
+--
+
+PublicKeys PUBLIC-KEY ::= {
+  -- This expands PublicKeys from [RFC 5912]
+  pk-fn-dsa-512 |
+  pk-fn-dsa-1024,
+  ...
+}
+
+--
+-- FN-DSA Public Keys
+--
+
+pk-fn-dsa-512 PUBLIC-KEY ::= {
+  IDENTIFIER id-fn-dsa-512
+  -- KEY no ASN.1 wrapping; XXXX octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { digitalSignature, nonRepudiation,
+                   keyCertSign, cRLSign }
+  -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+pk-fn-dsa-1024 PUBLIC-KEY ::= {
+  IDENTIFIER id-fn-dsa-1024
+  -- KEY no ASN.1 wrapping; XXXX octets --
+  PARAMS ARE absent
+  CERT-KEY-USAGE { digitalSignature, nonRepudiation,
+                   keyCertSign, cRLSign }
+  -- PRIVATE-KEY no ASN.1 wrapping; YYYY octets --
+  }
+
+FN-DSA-512-PublicKey ::= OCTET STRING (SIZE (897))
+
+FN-DSA-1024-PublicKey ::= OCTET STRING (SIZE (1793))
+
+FN-DSA-PrivateKey ::= OCTET STRING (SIZE (32))
+
+--
+-- Signature Algorithms
+--
+
+SignatureAlgorithms SIGNATURE-ALGORITHM ::= {
+  -- This expands SignatureAlgorithms from [RFC 5912]
+  sa-fn-dsa-512 |
+  sa-fn-dsa-1024,
+  ... }
+
+--
+-- ML-DSA Signature Algorithm Identifiers
+--
+
+sa-fn-dsa-512 SIGNATURE-ALGORITHM ::= {
+  IDENTIFIER id-fn-dsa-512
+  PARAMS ARE absent
+  PUBLIC-KEYS { pk-fn-dsa-512 }
+  SMIME-CAPS { IDENTIFIED BY id-fn-dsa-512 }
+  }
+
+sa-fn-dsa-1024 SIGNATURE-ALGORITHM ::= {
+  IDENTIFIER id-fn-dsa-1024
+  PARAMS ARE absent
+  PUBLIC-KEYS { pk-fn-dsa-1024 }
+  SMIME-CAPS { IDENTIFIED BY id-fn-dsa-1024 }
+  }
+
+END
+
+&lt;CODE ENDS&gt;</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="security-strengths">
+<section id="appendix-B">
+      <h2 id="name-security-strengths">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-security-strengths" class="section-name selfRef">Security Strengths</a>
+      </h2>
+<aside id="appendix-B-1">
+        <p id="appendix-B-1.1">TODO<a href="#appendix-B-1.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="examples">
+<section id="appendix-C">
+      <h2 id="name-examples">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="appendix-C-1">This appendix contains examples of FN-DSA private keys, public keys,
+certificates, and inconsistent seed and expanded private keys.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<div id="example-private">
+<section id="appendix-C.1">
+        <h3 id="name-example-private-keys">
+<a href="#appendix-C.1" class="section-number selfRef">C.1. </a><a href="#name-example-private-keys" class="section-name selfRef">Example Private Keys</a>
+        </h3>
+<p id="appendix-C.1-1">The following examples show FN-DSA private keys in different formats,
+all derived from the same seed <code>000102...1e1f</code>. For each security level,
+we show the seed-only format (using a context-specific <code>[0]</code> primitive
+tag with an implicit encoding of <code>OCTET STRING</code>), the <code>expanded</code> format,
+and <code>both</code> formats together.<a href="#appendix-C.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-C.1-2">NOTE: All examples use the same seed value, showing how the same seed
+produces different expanded private keys for each security level.<a href="#appendix-C.1-2" class="pilcrow">¶</a></p>
+<div id="fn-dsa-512-private-key-examples">
+<section id="appendix-C.1.1">
+          <h4 id="name-fn-dsa-512-private-key-exam">
+<a href="#appendix-C.1.1" class="section-number selfRef">C.1.1. </a><a href="#name-fn-dsa-512-private-key-exam" class="section-name selfRef">FN-DSA-512 Private Key Examples</a>
+          </h4>
+<p id="appendix-C.1.1-1">Each of the examples includes the textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> followed by
+the so-called "pretty print"; the private keys are the same.<a href="#appendix-C.1.1-1" class="pilcrow">¶</a></p>
+<aside id="appendix-C.1.1-2">
+            <p id="appendix-C.1.1-2.1">TODO<a href="#appendix-C.1.1-2.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="fn-dsa-1024-private-key-examples">
+<section id="appendix-C.1.2">
+          <h4 id="name-fn-dsa-1024-private-key-exa">
+<a href="#appendix-C.1.2" class="section-number selfRef">C.1.2. </a><a href="#name-fn-dsa-1024-private-key-exa" class="section-name selfRef">FN-DSA-1024 Private Key Examples</a>
+          </h4>
+<p id="appendix-C.1.2-1">Each of the examples includes the textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> followed by
+the so-called "pretty print"; the private keys are the same.<a href="#appendix-C.1.2-1" class="pilcrow">¶</a></p>
+<aside id="appendix-C.1.2-2">
+            <p id="appendix-C.1.2-2.1">TODO<a href="#appendix-C.1.2-2.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+</section>
+</div>
+<div id="example-public">
+<section id="appendix-C.2">
+        <h3 id="name-example-public-keys">
+<a href="#appendix-C.2" class="section-number selfRef">C.2. </a><a href="#name-example-public-keys" class="section-name selfRef">Example Public Keys</a>
+        </h3>
+<p id="appendix-C.2-1">The following is the FN-DSA-512 public key corresponding to the private
+key in the previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is
+followed by the so-called "pretty print"; the public keys are the same.<a href="#appendix-C.2-1" class="pilcrow">¶</a></p>
+<aside id="appendix-C.2-2">
+          <p id="appendix-C.2-2.1">TODO<a href="#appendix-C.2-2.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="appendix-C.2-3">The following is the FN-DSA-1024 public key corresponding to the private
+key in the previous section.  The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is
+followed by the so-called "pretty print"; the public keys are the same.<a href="#appendix-C.2-3" class="pilcrow">¶</a></p>
+<aside id="appendix-C.2-4">
+          <p id="appendix-C.2-4.1">TODO<a href="#appendix-C.2-4.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="example-certificates">
+<section id="appendix-C.3">
+        <h3 id="name-example-certificates">
+<a href="#appendix-C.3" class="section-number selfRef">C.3. </a><a href="#name-example-certificates" class="section-name selfRef">Example Certificates</a>
+        </h3>
+<aside id="appendix-C.3-1">
+          <p id="appendix-C.3-1.1">NOTE: The example certificates in this section have key usage bits set to
+<code>digitalSignature</code>, <code>keyCertSign</code>, and <code>cRLSign</code> to lessen the number of
+examples, i.e., brevity. Certificate Policies (CPs) <span>[<a href="#RFC3647" class="cite xref">RFC3647</a>]</span>
+for production CAs should consider whether this combination is
+appropriate.<a href="#appendix-C.3-1.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="appendix-C.3-2">The following is a self-signed certificate for the FN-DSA-512 public key in the
+previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is followed by the
+so-called "pretty print"; the certificates are the same.<a href="#appendix-C.3-2" class="pilcrow">¶</a></p>
+<aside id="appendix-C.3-3">
+          <p id="appendix-C.3-3.1">TODO<a href="#appendix-C.3-3.1" class="pilcrow">¶</a></p>
+</aside>
+<p id="appendix-C.3-4">The following is a self-signed certificate for the FN-DSA-1024 public key in the
+previous section. The textual encoding <span>[<a href="#RFC7468" class="cite xref">RFC7468</a>]</span> is followed by the
+so-called "pretty print"; the certificates are the same.<a href="#appendix-C.3-4" class="pilcrow">¶</a></p>
+<aside id="appendix-C.3-5">
+          <p id="appendix-C.3-5.1">TODO<a href="#appendix-C.3-5.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-D">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<aside id="appendix-D-1">
+        <p id="appendix-D-1.1">TODO<a href="#appendix-D-1.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-E">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jake Massimo</span></div>
+<div dir="auto" class="left"><span class="org">AWS</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jakemas@amazon.com" class="email">jakemas@amazon.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Panos Kampanakis</span></div>
+<div dir="auto" class="left"><span class="org">AWS</span></div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:kpanos@amazon.com" class="email">kpanos@amazon.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Sean Turner</span></div>
+<div dir="auto" class="left"><span class="org">sn3rd</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:sean@sn3rd.com" class="email">sean@sn3rd.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Bas Westerbaan</span></div>
+<div dir="auto" class="left"><span class="org">Cloudflare</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:bas@cloudflare.com" class="email">bas@cloudflare.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
