@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-04T01:17:34.835976+00:00",
+  "timestamp": "2025-11-06T01:18:23.527618+00:00",
   "repo": "seanturner/fn-dsa-certificates",
   "labels": [
     {
@@ -159,24 +159,26 @@
       "id": "PR_kwDOQHeIPM6wLNZQ",
       "title": "Add Panos",
       "url": "https://github.com/seanturner/fn-dsa-certificates/pull/4",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "seanturner",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-10-28T15:35:15Z",
-      "updatedAt": "2025-11-02T21:26:33Z",
+      "updatedAt": "2025-11-04T05:57:36Z",
       "baseRepository": "seanturner/fn-dsa-certificates",
       "baseRefName": "main",
       "baseRefOid": "c892a9d1a309e71542e9c86e6600110a4a554126",
       "headRepository": "seanturner/fn-dsa-certificates",
       "headRefName": "seanturner-add-panos",
       "headRefOid": "3acd07a736899e259a5777a08c14ee95224ee144",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-04T05:57:36Z",
+      "mergedAt": "2025-11-04T05:57:36Z",
+      "mergedBy": "seanturner",
+      "mergeCommit": {
+        "oid": "7ddf4d03a2485741abd55a8393d669d2e93da580"
+      },
       "comments": [],
       "reviews": []
     }
